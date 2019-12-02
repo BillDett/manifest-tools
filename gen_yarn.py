@@ -29,6 +29,5 @@ for line in sys.stdin:
     u = urlparse(str(t[1]).replace('"',''))
     p = u.path.split('/')
     pkg = p[len(p)-1]
-    h = u.netloc.split('.')
-    host = h[len(h)-2]
-    print('quay:' + tag + ':quay/' + host + '-' + pkg)
+    prefix = 'nodejs'
+    print('quay:' + tag + ':quay/' + prefix + '-' + pkg)
