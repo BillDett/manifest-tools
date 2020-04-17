@@ -11,13 +11,28 @@ Run the clair-jwt container and verify the installed package versions match mani
     [root@160b88d792f0 clair]# rpm -qa | grep redhat-release-server
     redhat-release-server-7.7-10.el7.x86_64
 
-...and so forth...
+
+### clair-Dockerfile.txt
+Run the clair container and verify the installed package versions match manifest file:
+
+    $ podman run --entrypoint "/bin/bash" -it clair:latest
+    [root@160b88d792f0 clair]# rpm -qa | grep redhat-release
+    redhat-release-8.1-3.3.el8.x86_64
+
+
+### claircore-go-mod.txt
+
+    $ cd claircore
+    $ go mod vendor
+    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.3 > claircore-module
+    $ cat claircore-module >> ../quay-manifests/rhquay/claircore-go-mod.txt
+
 
 ### quay-builder-go-mod.txt
 
     $ cd quay-builders
     $ go mod vendor
-    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.2 > quay-builder-module
+    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.3 > quay-builder-module
     $ cat quay-builder-module >> ../quay-manifests/rhquay/quay-builder-go-mod.txt
 
 ### quay-builder-Dockerfile.txt
@@ -59,7 +74,7 @@ Run the Quay container and verify the installed package versions match manifest 
 
     $ cd quay-operator
     $ go mod vendor
-    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.2 > quay-operator-module
+    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.3 > quay-operator-module
     $ cat quay-operator-module >> ../quay-manifests/rhquay/quay-operator-go-mod.txt
 
 
@@ -67,20 +82,29 @@ Run the Quay container and verify the installed package versions match manifest 
 
     $ cd container-security-operator
     $ go mod vendor
-    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.2 > cso-module
+    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.3 > cso-module
     $ cat cso-module >> ../quay-manifests/rhquay/container-security-operator-go-mod.txt
+
+
+### quay-bridge-operator-go-mod.txt
+
+    $ cd quay-bridge-operator
+    $ go mod vendor
+    $ cat vendor/modules.txt | python3 ../manifest-tools/gen_module.py 3.3 > qbo-module
+    $ cat qbo-module >> ../quay-manifests/rhquay/quay-bridge-operator-go-mod.txt
+
 
 ### quay-requirements.txt
 
     $ cd quay
-    $ cat requirements.txt | python3 ../manifest-tools/gen_requirements.py 3.2 > quay-rqmts
+    $ cat requirements.txt | python3 ../manifest-tools/gen_requirements.py 3.3 > quay-rqmts
     $ cat quay-rqmts >> ../quay-manifests/rhquay/quay-requirements.txt
 
 
 ### quay-yarn.txt
 
     $ cd quay
-    $ grep resolved yarn.lock | python3 ../manifest-tools/gen_yarn.py 3.2 > quay-yarn
+    $ grep resolved yarn.lock | python3 ../manifest-tools/gen_yarn.py 3.3 > quay-yarn
     $ cat quay-yarn >> ../quay-manifests/rhquay/quay-yarn.txt
 
 
